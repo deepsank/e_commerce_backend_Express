@@ -26,7 +26,8 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Stock is required']
     },
     category: {
-        type : String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
         required : true,
 
     },
