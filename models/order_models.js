@@ -15,7 +15,8 @@ const orderSchema = new mongoose.Schema(
       default: mongoose.Types.ObjectId, // Function to generate a new ObjectId
     },
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       unique: true,
       required: true,
     },
@@ -31,13 +32,34 @@ const orderSchema = new mongoose.Schema(
     },
     items: [
       {
-        productID: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        productID: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
         quantity: {
           type: Number,
           required: true,
         },
       },
     ],
+    address: {
+      street:{
+        type: String,
+        required: true,
+      },
+      city: {
+        type: String,
+        required: true,
+      },
+      state: {
+        type: String,
+        required: true,
+      },
+      pinCode: {
+        type: String,
+        required: true,
+      },
+    },
   },
   { timestamps: true }
 );
