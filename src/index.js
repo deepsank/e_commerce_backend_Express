@@ -1,17 +1,32 @@
 import dotenv from 'dotenv';
-dotenv.config();
+
 import express from "express";
-const app = express()
-const port = 4000
+import connectDB from './db/dbConnect.js';
+import app from './app.js'
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+dotenv.config(
+  {
+    path : "./.env"
+  }
+);
 
-app.get('/sanky', (req, res) => {
-  res.send("<h1>Hello Sanky!!!</h1>")
-})
+const port = process.env.PORT_URL || 4000;
 
-app.listen(process.env.PORT_URL, () => {
-  console.log(`Example app listening on port ${process.env.PORT_URL}`)
-})
+connectDB().then(()=> {
+  app.listen(port,()=>{
+    console.log(`Example app listening on port ${port}`);
+  });
+}).catch((error)=>{
+    console.log("DB connection failed !!!!",error);
+});
+// app.get('/', (req, res) => {
+//   res.send('Hello World!')
+// })
+
+// app.get('/sanky', (req, res) => {
+//   res.send("<h1>Hello Sanky!!!</h1>")
+// })
+
+// app.listen(process.env.PORT_URL, () => {
+//   console.log(`Example app listening on port ${process.env.PORT_URL}`)
+// })
