@@ -1,18 +1,15 @@
 import mongoose from "mongoose";
 
-const ratingSchema = new mongoose.Schema({
-  rating: mongoose.Types.Decimal128,
-  count: Number,
-});
+
 
 
 const productSchema = new mongoose.Schema(
   {
-    productId: {
-      // type: mongoose.Schema.Types.ObjectId,
-      // default: mongoose.Types.ObjectId // Function to generate a new ObjectId
-      type: Number,
-    },
+    // productId: {
+    //   // type: mongoose.Schema.Types.ObjectId,
+    //   // default: mongoose.Types.ObjectId // Function to generate a new ObjectId
+    //   type: Number,
+    // },
     title: {
       type: String,
       required: true,
@@ -23,6 +20,7 @@ const productSchema = new mongoose.Schema(
     },
     price: {
         type :mongoose.Types.Decimal128
+        
     },
     stock: {
       type: Number,
@@ -40,7 +38,8 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     rating: {
-       ratingSchema,
+      rate: mongoose.Types.Decimal128,
+      count: Number,
     },
   },
   { timestamps: true }

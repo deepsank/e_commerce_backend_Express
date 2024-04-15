@@ -2,6 +2,8 @@ import { asyncMethodHandler } from "../utils/asyncMethodHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/users_models.js";
+import { Product } from "../models/products_models.js";
+import mongoose from "mongoose";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -174,7 +176,82 @@ const logoutuser = asyncMethodHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out successfully!!!"));
 });
 
-const testingTokenExpiry = function(req,res){
-    return res.status(200).json(new ApiResponse(200,{},"Successfully Tested the token expiry and resource access"));
-}
-export { registerUser, loginUser, logoutuser,testingTokenExpiry };
+const testingTokenExpiry = function (req, res) {
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        {},
+        "Successfully Tested the token expiry and resource access"
+      )
+    );
+};
+
+const addToCart = asyncMethodHandler(async (req, res) => {
+  const { productID, quantity } = req.body;
+  const productExists = await Product.findById(productID);
+  if(!productExists){
+    console.log("Erororrrrrrrrrrrrrrrrrrororor!!!")
+    return res.status(400).json(new ApiResponse(400,{},"Product doesn't Exits!!!"));
+  }
+  const user = await User.findById(req.user?._id);
+  const ObjectId = mongoose.Types.ObjectId;
+
+  // Assuming productID is a string representing the product's ObjectId
+  // const productObjectId = new ObjectId(productID);
+  if (!user) {
+    return res.status(401).json(new ApiError(401, "Unauthorized access!!!"));
+  }
+  const productExistsForTheUserIndex = user.cart.findIndex((item) => {
+    console.log("item.productID", item.productID);
+    // console.log("productID", productObjectId);
+    return item.productID.equals(productID);
+  });
+  if (productExistsForTheUserIndex !== -1) {
+    user.cart[productExistsForTheUserIndex].quantity = quantity;
+    console.log("Hellloooooooooooooooooooooooooooooo");
+  } else {
+    console.log("Worldddddddddddddddddddddddddddddddd");
+    const cartItem = {
+      productID: productID, // Assuming productId is the ObjectID of the product
+      quantity: quantity,
+    };
+    user.cart.push(cartItem);
+  }
+
+  await user.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, { user }, "Added to the cart successfully!!!"));
+});
+
+const fetchCartDetails = asyncMethodHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const productIDs = user.cart.map((item) => item.productID);
+  const productDetails = [];
+
+  for (const productID of productIDs) {
+    const product = await Product.findById(productID);
+    productDetails.push(product);
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { productDetails },
+        "Fetched products of the cart successfully!!!"
+      )
+    );
+});
+export {
+  registerUser,
+  loginUser,
+  logoutuser,
+  testingTokenExpiry,
+  addToCart,
+  fetchCartDetails,
+};
