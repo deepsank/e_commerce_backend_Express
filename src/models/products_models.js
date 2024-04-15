@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
 
+const ratingSchema = new mongoose.model({
+    rating : mongoose.Types.Decimal128,
+    count : Number
+});
+
 const productSchema = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
         default: mongoose.Types.ObjectId // Function to generate a new ObjectId
     },
-    name : {
+    title : {
         type : String,
         required : true,
 
@@ -36,6 +41,9 @@ const productSchema = new mongoose.Schema({
         required : true,
 
     },
+    rating : {
+        ratingSchema
+    }
 },{ timestamps: true});
 
 export const Product = mongoose.model("Product",productSchema);

@@ -1,0 +1,4 @@
+# E-commerce DB schema
+
+
+
