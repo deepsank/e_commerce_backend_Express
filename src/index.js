@@ -13,7 +13,7 @@ const port = process.env.PORT_URL || 4000;
 
 connectDB().then(()=> {
   app.listen(port,()=>{
-    console.log(`Example app listening on port ${port}`);
+    console.log(`DKART app listening on port ${port}`);
   });
 }).catch((error)=>{
     console.log("DB connection failed !!!!",error);

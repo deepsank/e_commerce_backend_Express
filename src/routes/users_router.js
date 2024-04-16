@@ -5,7 +5,12 @@ import {
   logoutuser,
   testingTokenExpiry,
   addToCart,
-  fetchCartDetails
+  fetchCartDetails,
+  modifyCart,
+  addAddress,
+  editAddress,
+  deleteAddress,
+  resetPassword
 } from "../controllers/user_controller.js";
 import { verifyJWT } from "../middlewares/auth_middleware.js";
 
@@ -17,5 +22,10 @@ userRouter.route("/logout").post(verifyJWT, logoutuser);
 userRouter.route("/testing").post(verifyJWT, testingTokenExpiry);
 userRouter.route("/addToCart").post(verifyJWT, addToCart);
 userRouter.route("/fetchCartDetails").get(verifyJWT, fetchCartDetails);
+userRouter.route("/modifyCart").put(verifyJWT, modifyCart);
+userRouter.route("/addAddress").post(verifyJWT,addAddress);
+userRouter.route("/editAddress").put(verifyJWT,editAddress);
+userRouter.route("/deleteAddress").delete(verifyJWT,deleteAddress);
+userRouter.route("/resetPassword").post(resetPassword);
 
 export default userRouter;
