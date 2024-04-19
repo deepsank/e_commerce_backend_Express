@@ -6,18 +6,19 @@ const orderStatusEnum = {
   PROCESSING: "processing",
   SHIPPED: "shipped",
   DELIVERED: "delivered",
+  FAILED: "failed"
 };
 
 const orderSchema = new mongoose.Schema(
   {
-    orderId: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: mongoose.Types.ObjectId, // Function to generate a new ObjectId
-    },
+    // orderId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   default: mongoose.Types.ObjectId, // Function to generate a new ObjectId
+    // },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      unique: true,
+      // unique: true,
       required: true,
     },
     totalPrice: {
@@ -40,6 +41,7 @@ const orderSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
+        // ratingsForTheOrder  ------------ we can user it for storing the ratings for the order later on
       },
     ],
     address: {
@@ -64,4 +66,6 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Order = mongoose.model("Order", orderSchema);
+ const Order = mongoose.model("Order", orderSchema);
+
+ export {Order,orderStatusEnum};

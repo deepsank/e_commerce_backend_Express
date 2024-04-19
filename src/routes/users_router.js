@@ -10,7 +10,8 @@ import {
   addAddress,
   editAddress,
   deleteAddress,
-  resetPassword
+  resetPassword,
+  fetchUserOrders
 } from "../controllers/user_controller.js";
 import { verifyJWT } from "../middlewares/auth_middleware.js";
 
@@ -27,5 +28,6 @@ userRouter.route("/addAddress").post(verifyJWT,addAddress);
 userRouter.route("/editAddress").put(verifyJWT,editAddress);
 userRouter.route("/deleteAddress").delete(verifyJWT,deleteAddress);
 userRouter.route("/resetPassword").post(resetPassword);
+userRouter.route("/fetchUserOrders").get(verifyJWT,fetchUserOrders);
 
 export default userRouter;

@@ -39,7 +39,9 @@ const addProduct = asyncMethodHandler( async (req,res) => {
 });
 
 const fetchProductById = asyncMethodHandler(async(req,res)=>{
-    const {productID} = req.body;
+    // const {productID} = req.body;
+    const {productID} = req.params;
+    console.log(productID);
     const productDetails = await Product.findById(productID);
     return res.status(200).json(new ApiResponse(200,{productDetails},"Fetched products details successfully!!!"));
 });

@@ -6,6 +6,6 @@ const productsRouter = Router();
 
 productsRouter.route("/listProducts").get(listProducts);
 productsRouter.route("/addProduct").post(addProduct);
-productsRouter.route("/fetchProductById").get(fetchProductById);
+productsRouter.route("/fetchProductById/productID/:productID").get(fetchProductById);
 
 export default productsRouter;

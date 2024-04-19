@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/users_models.js";
 import { Product } from "../models/products_models.js";
 import mongoose from "mongoose";
+import { Order } from "../models/order_models.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -383,6 +384,15 @@ const resetPassword = asyncMethodHandler(async(req,res)=>{
   return res.status(201).json(new ApiResponse(201,{user : userAfterPwdChange},"Password changed successfully!!!"));
 
 });
+
+const fetchUserOrders = asyncMethodHandler(async(req,res)=>{
+  const user = req.user;
+  const orderDetails = await Order.find({userId:user._id});
+  if(!orderDetails){
+    return res.status(400).json(new ApiError(400,"",["No orders placed till now!!!"]));
+  }
+  return res.status(200).json(new ApiResponse(200,{orderDetails},"Fetched orders for the user successfully!!!"));
+});
 export {
   registerUser,
   loginUser,
@@ -394,5 +404,6 @@ export {
   addAddress,
   editAddress,
   deleteAddress,
-  resetPassword
+  resetPassword,
+  fetchUserOrders
 };
