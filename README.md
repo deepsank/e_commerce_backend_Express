@@ -1,2 +1,2 @@
 # e_commerce_backend_Express
-A backend Express app for learning
+A backend ExpressJS app for learning
